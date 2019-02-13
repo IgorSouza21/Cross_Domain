@@ -70,11 +70,14 @@ class GridSearchSpectral:
     def search(self):
         p = self.gerar_parametros()
         jobs = []
+        k = 1
         for param in p:
-            w = multiprocessing.Process(target=self.worker, args=(param,))
+            w = multiprocessing.Process(target=self.worker, args=(param, k))
+            k += 1
             jobs.append(w)
             w.start()
-            w.join()
+
+        [a.join() for a in jobs]
 
 
 
