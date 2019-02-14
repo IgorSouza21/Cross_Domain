@@ -2,7 +2,7 @@ import classification as clf
 from Spectral.SpectralFeatureAlignment import SpectralFeatureAlignment
 import domains as dm
 import preprocess as pp
-import multiprocessing
+import multiprocessing as mp
 
 
 class GridSearchSpectral:
@@ -38,8 +38,7 @@ class GridSearchSpectral:
 
         return z
 
-    def worker(self, param, num):
-        print('work ', num)
+    def worker(self, param):
         nclusters, nDI, coocTh, sourceFreqTh, targetFreqTh, gamma, source, target, model = param
         src_train_dt, src_test_dt, src_train_lb, src_test_lb = dm.return_domain(source)
         tar_train_dt, tar_test_dt, tar_train_lb, tar_test_lb = dm.return_domain(target)
@@ -68,17 +67,10 @@ class GridSearchSpectral:
             self.best = param
 
     def search(self):
-        p = self.gerar_parametros()
-        jobs = []
-        k = 1
-        for param in p:
-            w = multiprocessing.Process(target=self.worker, args=(param, k))
-            k += 1
-            jobs.append(w)
-            w.start()
-
-        [a.join() for a in jobs]
-
+        pool = mp.Pool(mp.cpu_count())
+        params = self.gerar_parametros()
+        results = [pool.apply_async(self.worker, args=(param,)) for param in params]
+        [a.get() for a in results]
 
 
 

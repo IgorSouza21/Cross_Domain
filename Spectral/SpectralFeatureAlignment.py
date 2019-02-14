@@ -194,9 +194,12 @@ class SpectralFeatureAlignment:
 
     def apply_feature_align(self, x):
         if self.U is not None:
-            y = x.dot(self.U[:len(self.DS), :])
+            tam = len(self.DS)
+            y = x.dot(self.U[:tam, :])
             for i in range(self.nclusters):
                 y[0, i] = self.gamma * y[0, i]
+                if i == tam-1:
+                    break
 
             return y[0]
         else:
@@ -225,75 +228,3 @@ def get_features_vocab(dt, t, tfidf_bool):
     vocab = SpectralFeatureAlignment.threshold(vocab, t)
 
     return dicts, vocab
-
-
-# if __name__ == "__main__":
-#     books_pos, books_neg = dm.pos_neg('C:/Users/igor_/PycharmProjects/Cross-DomainIC/DataSet/books')
-#     # dvd_pos, dvd_neg = pp.pos_neg('C:/Users/igor_/PycharmProjects/Cross-DomainIC/DataSet/dvd')
-#     el_pos, el_neg = dm.pos_neg('C:/Users/igor_/PycharmProjects/Cross-DomainIC/DataSet/electronics')
-#     # kitchen_pos, kitchen_neg = pp.pos_neg('C:/Users/igor_/PycharmProjects/Cross-DomainIC/DataSet/kitchen')
-#
-#     # labels = [1]*998 + [0]*999
-#
-#     labels = [1] * 50 + [0] * 50
-#     l = books_pos[:50] + books_neg[:50]
-#     books = pp.pd.DataFrame(l, columns=['text'])
-#
-#     # dvd = pp.pd.DataFrame(dvd_pos + dvd_neg, columns=['text'])
-#     l = el_pos[:50] + el_neg[:50]
-#     electronics = pp.pd.DataFrame(l, columns=['text'])
-#
-#     # kitchen = pp.pd.DataFrame(kitchen_pos + kitchen_neg, columns=['text'])
-#
-#     bk_train, bk_test, bk_lb_train, bk_lb_test = train_test_split(books, labels, train_size=0.8,
-#                                                                   test_size=0.2, shuffle=True,
-#                                                                   stratify=labels)
-#
-#     el_train, el_test, el_lb_train, el_lb_test = train_test_split(electronics, labels, train_size=0.8,
-#                                                                   test_size=0.2, shuffle=True,
-#                                                                   stratify=labels)
-#     bk_train = bk_train['text']
-#     bk_test = bk_test['text']
-#     el_train = el_train['text']
-#     el_test = el_test['text']
-#
-#     # nclusters = 50
-#     # nDI = 500
-#     # coocTh = 10
-#     # sourceFreqTh = 10
-#     # targetFreqTh = 5
-#     # gamma = 1.0
-#     # spec = SpectralFeatureAlignment(nclusters, nDI, coocTh, sourceFreqTh, targetFreqTh, gamma)
-#     spec = pp.read('Spectral.ig')
-#     # spec.spectral_alignment(bk_train, el_train)
-#     train = spec.transform_data(spec.source)
-#     el_features_test = pp.get_all_features(el_test)
-#     test = spec.transform_data(el_features_test)
-#     tam = len(train)
-#     al = pp.pd.concat([train, test], ignore_index=True)
-#     al.fillna(0, inplace=True)
-#
-#     train = al.iloc[:tam]
-#     test = al.iloc[tam:]
-#
-#     # train = pp.normalize(train)
-#     # test = pp.normalize(test)
-#     model = clf.choose_model('nb', k_features=len(train.keys()))
-#
-#     model.fit(train, bk_lb_train)
-#     predicts = model.predict(test)
-#     acc = accuracy_score(bk_lb_test, predicts)
-#     print("Accuracy: " + str(acc * 100) + "%")
-#     conf = confusion_matrix(bk_lb_test, predicts)
-#     print(conf)
-# #     # data = pd.read_csv('DataSet.csv')
-# #     # source = SpectralFeatureAlignment.get_domain(data, 'books')
-# #     # d2 = SpectralFeatureAlignment.get_domain(data, 'musics')
-# #     # d3 = SpectralFeatureAlignment.get_domain(data, 'musical_instruments')
-# #     # source = pd.concat([d1,d2,d3], ignore_index=True)
-# #     # target = SpectralFeatureAlignment.get_domain(data, 'musics')
-# #
-# #     # run_grid(data)
-# #     # res = SpectralFeatureAlignment.read('result.ig')
-# #     # print(res)
-# #     run_one(books, movies, clf.choose_model('lr'), 1000, 1000)

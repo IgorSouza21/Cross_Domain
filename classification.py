@@ -12,27 +12,27 @@ model_names = ['knn3', 'knn5', 'knn7', 'wknn3', 'wknn5', 'wknn7', 'nb',
 
 
 def choose_model(str_model, k_features=None):
-    if str_model is 'knn3':
+    if str_model == 'knn3':
         model = KNeighborsClassifier(n_neighbors=3, metric='euclidean', n_jobs=4)
-    elif str_model is 'knn5':
+    elif str_model == 'knn5':
         model = KNeighborsClassifier(n_neighbors=5, metric='euclidean', n_jobs=4)
-    elif str_model is 'knn7':
+    elif str_model == 'knn7':
         model = KNeighborsClassifier(n_neighbors=7, metric='euclidean', n_jobs=4)
-    elif str_model is 'wknn3':
+    elif str_model == 'wknn3':
         model = KNeighborsClassifier(n_neighbors=3, weights='distance', metric='euclidean', n_jobs=4)
-    elif str_model is 'wknn5':
+    elif str_model == 'wknn5':
         model = KNeighborsClassifier(n_neighbors=5, weights='distance', metric='euclidean', n_jobs=4)
-    elif str_model is 'wknn7':
+    elif str_model == 'wknn7':
         model = KNeighborsClassifier(n_neighbors=7, weights='distance', metric='euclidean', n_jobs=4)
-    elif str_model is 'nb':
+    elif str_model == 'nb':
         model = GaussianNB()
-    elif str_model is 'dt':
+    elif str_model == 'dt':
         model = DecisionTreeClassifier()
-    elif str_model is 'svm_linear':
+    elif str_model == 'svm_linear':
         model = svm.LinearSVC()
-    elif str_model is 'lr':
+    elif str_model == 'lr':
         model = LogisticRegression(solver='lbfgs', n_jobs=4)
-    elif str_model is 'nn':
+    elif str_model == 'nn':
         model = NeuralNetwork(k_features, n_hidden_layers=3,
                               n_neurons=[int(k_features/2), int(k_features/5), 20])
     else:
@@ -64,4 +64,4 @@ def train_test_one_model(train_dt, train_lb, test_dt, test_lb, model, k_features
     run_classifier(classifier, train_dt, train_lb, test_dt, test_lb)
 
     print('finish classification')
-    return classifier[1], classifier[2]
+    return classifier[1][0], classifier[2][0]
