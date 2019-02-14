@@ -11,11 +11,11 @@ if __name__ == '__main__':
                   'gamma': [0.1, 0.5, 1.0],
                   'source': ['books', 'dvd', 'electronics', 'kitchen'],
                   'target': ['books', 'dvd', 'electronics', 'kitchen'],
-                  'model': ['lr', 'knn3', 'svm_linear', 'dt', 'nb', 'nn', 'wknn3']}
+                  'model': ['wknn3']}
 
     grid = GridSearchSpectral(parameters)
     grid.search()
-    pp.save_pickle('Spectral/GridSearch.pk', grid)
+    pp.save_pickle('Spectral/GridSearch_WKNN.pk', grid)
     print(grid.best)
     print(grid.best_acc)
     print('====================FINISHED=====================')
