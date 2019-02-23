@@ -9,7 +9,7 @@ from NeuralNetwork import NeuralNetwork
 from timeit import default_timer
 
 model_names = ['knn3', 'knn5', 'knn7', 'wknn3', 'wknn5', 'wknn7', 'nb',
-               'dt', 'svm_linear', 'lr', 'nn']
+               'dt', 'rf', 'svm', 'lr', 'nn']
 
 
 def choose_model(str_model, k_features=None):
@@ -31,7 +31,7 @@ def choose_model(str_model, k_features=None):
         model = DecisionTreeClassifier()
     elif str_model == 'rf':
         model = RandomForestClassifier()
-    elif str_model == 'svm_linear':
+    elif str_model == 'svm':
         model = svm.LinearSVC()
     elif str_model == 'lr':
         model = LogisticRegression(solver='lbfgs', n_jobs=4)
