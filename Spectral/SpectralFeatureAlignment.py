@@ -33,7 +33,6 @@ class SpectralFeatureAlignment:
         self.target = None
 
     def spectral_alignment(self, source, target):
-        print('spectral initiation')
         self.source, vocab_source = get_features_vocab(source, self.sourceFreqTh, True)
         self.target, vocab_target = get_features_vocab(target, self.targetFreqTh, True)
 

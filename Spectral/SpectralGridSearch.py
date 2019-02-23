@@ -69,8 +69,12 @@ class GridSearchSpectral:
     def search(self):
         params = self.gerar_parametros()
 
+        length = len(params)
+
         for param in params:
+            print("iteration " + str(length))
             self.worker(param)
+            length -= 1
         # processes = [mp.Process(target=self.worker, args=(param,)) for param in params]
         #
         # for p in processes:
