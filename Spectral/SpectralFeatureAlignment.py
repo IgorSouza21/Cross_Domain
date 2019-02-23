@@ -1,5 +1,21 @@
 import preprocess as pp
 import numpy as np
+# import multiprocessing as mp
+
+
+def calculate_corr(M, d):
+    d = list(d.keys())
+    n = len(d)
+    for i in range(n):
+        for j in range(i + 1, n):
+            pair = (d[i], d[j])
+            rpair = (d[j], d[i])
+            if pair in M:
+                M[pair] += 1
+            elif rpair in M:
+                M[rpair] += 1
+            else:
+                M[pair] = 1
 
 
 class SpectralFeatureAlignment:
@@ -22,6 +38,7 @@ class SpectralFeatureAlignment:
         self.target, vocab_target = get_features_vocab(target, self.targetFreqTh, True)
 
         vocab = vocab_source.copy()
+
         for w in vocab_target:
             src = 0
             tar = 0
@@ -198,8 +215,6 @@ class SpectralFeatureAlignment:
             y = x.dot(self.U[:tam, :])
             for i in range(self.nclusters):
                 y[0, i] = self.gamma * y[0, i]
-                if i == tam-1:
-                    break
 
             return y[0]
         else:

@@ -8,6 +8,7 @@ import pickle
 import nltk
 from collections import defaultdict
 import math
+# import multiprocessing as mp
 
 
 def transform_in_dataframe(values, columns):
@@ -124,8 +125,13 @@ def save_data_frame(s, name):
     s.to_csv(name + '.csv', index=False)
 
 
+def using_queue_get_feat(d, output):
+    output.put(get_features(d))
+
+
 def get_all_features(data, tfidf_bool):
     dicts = []
+
     for d in data:
         dicts.append(get_features(d))
 

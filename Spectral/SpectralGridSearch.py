@@ -67,10 +67,21 @@ class GridSearchSpectral:
             self.best = param
 
     def search(self):
-        pool = mp.Pool(mp.cpu_count())
         params = self.gerar_parametros()
-        results = [pool.apply_async(self.worker, args=(param,)) for param in params]
-        [a.get() for a in results]
+
+        for param in params:
+            self.worker(param)
+        # processes = [mp.Process(target=self.worker, args=(param,)) for param in params]
+        #
+        # for p in processes:
+        #     p.start()
+        #
+        # for p in processes:
+        #     p.join()
+
+        # pool = mp.Pool(int(mp.cpu_count()/2))
+        # results = [pool.apply_async(self.worker, args=(param,)) for param in params]
+        # [a.get() for a in results]
 
 
 

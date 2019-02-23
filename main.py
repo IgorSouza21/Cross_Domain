@@ -1,9 +1,12 @@
 from Spectral.SpectralGridSearch import GridSearchSpectral
 import preprocess as pp
+import sys
+
+# models for run ['lr', 'knn3', 'svm_linear', 'dt', 'rf', 'nb', 'nn', 'wknn3']
 
 
-if __name__ == '__main__':
-    parameters = {'nclusters': [50, 75, 100],
+def run_grid(model):
+    parameters = {'nclusters': [2, 5, 7],
                   'nDI': [60, 80, 100],
                   'coocTh': [5, 10, 15],
                   'sourceFreqTh': [5, 10, 15],
@@ -11,7 +14,7 @@ if __name__ == '__main__':
                   'gamma': [0.1, 0.5, 1.0],
                   'source': ['books', 'dvd', 'electronics', 'kitchen'],
                   'target': ['books', 'dvd', 'electronics', 'kitchen'],
-                  'model': ['lr', 'knn3', 'svm_linear', 'dt', 'nb', 'nn', 'wknn3']}
+                  'model': model}
 
     grid = GridSearchSpectral(parameters)
     grid.search()
@@ -19,3 +22,8 @@ if __name__ == '__main__':
     print(grid.best)
     print(grid.best_acc)
     print('====================FINISHED=====================')
+
+
+if __name__ == "__main__":
+    run_grid(str(sys.argv[1]))
+    # run_grid(['lr'])

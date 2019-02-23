@@ -3,6 +3,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn import svm
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from NeuralNetwork import NeuralNetwork
 from timeit import default_timer
@@ -28,6 +29,8 @@ def choose_model(str_model, k_features=None):
         model = GaussianNB()
     elif str_model == 'dt':
         model = DecisionTreeClassifier()
+    elif str_model == 'rf':
+        model = RandomForestClassifier()
     elif str_model == 'svm_linear':
         model = svm.LinearSVC()
     elif str_model == 'lr':
