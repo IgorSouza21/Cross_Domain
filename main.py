@@ -25,5 +25,5 @@ def run_grid(model):
 
 
 if __name__ == "__main__":
-    run_grid(str(sys.argv[1]))
-    # run_grid(['lr'])
+    # run_grid(str(sys.argv[1]))
+    run_grid(['lr'])

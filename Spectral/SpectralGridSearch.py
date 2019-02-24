@@ -2,7 +2,7 @@ import classification as clf
 from Spectral.SpectralFeatureAlignment import SpectralFeatureAlignment
 import domains as dm
 import preprocess as pp
-import multiprocessing as mp
+# import multiprocessing as mp
 
 
 class GridSearchSpectral:
@@ -55,12 +55,13 @@ class GridSearchSpectral:
         tam = len(train)
         al = pp.pd.concat([train, test], ignore_index=True)
         al.fillna(0, inplace=True)
-
         train = al.iloc[:tam]
         test = al.iloc[tam:]
 
-        acc, time = clf.train_test_one_model(train, src_train_lb, test, tar_test_lb, model,
+        acc, time = clf.train_test_one_model(train, src_train_lb, test,
+                                             tar_test_lb, model,
                                              len(train.keys()))
+
         self.all_results[param] = (acc, time)
         if acc > self.best_acc:
             self.best_acc = acc

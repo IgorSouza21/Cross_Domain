@@ -204,7 +204,10 @@ class SpectralFeatureAlignment:
         from sparsesvd import sparsesvd
         from scipy.sparse import csc_matrix
         _, eigenvectors = np.linalg.eig(L)
-        U, _, _ = sparsesvd(csc_matrix(eigenvectors), k)
+        try:
+            U, _, _ = sparsesvd(csc_matrix(eigenvectors), k)
+        except ValueError:
+            return eigenvectors.transpose()
 
         return U.transpose()
 
