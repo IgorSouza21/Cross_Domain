@@ -2,7 +2,7 @@ import classification as clf
 from Spectral.SpectralFeatureAlignment import SpectralFeatureAlignment
 import domains as dm
 import preprocess as pp
-# import multiprocessing as mp
+import multiprocessing as mp
 
 
 class GridSearchSpectral:
@@ -70,23 +70,9 @@ class GridSearchSpectral:
     def search(self):
         params = self.gerar_parametros()
 
-        length = len(params)
+        with mp.Pool(4) as p:
+            p.map(self.worker, params)
 
-        for param in params:
-            print("iteration " + str(length))
-            self.worker(param)
-            length -= 1
-        # processes = [mp.Process(target=self.worker, args=(param,)) for param in params]
-        #
-        # for p in processes:
-        #     p.start()
-        #
-        # for p in processes:
-        #     p.join()
-
-        # pool = mp.Pool(int(mp.cpu_count()/2))
-        # results = [pool.apply_async(self.worker, args=(param,)) for param in params]
-        # [a.get() for a in results]
 
 
 

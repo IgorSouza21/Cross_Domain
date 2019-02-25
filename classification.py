@@ -46,8 +46,20 @@ def choose_model(str_model, k_features=None):
 
 def run_classifier(tuple_classifier, train_dt, train_lb, test_dt, test_lb):
     start = default_timer()
-    tuple_classifier[0].fit(train_dt, train_lb)
-    predict_label = tuple_classifier[0].predict(test_dt)
+    try:
+        tuple_classifier[0].fit(train_dt, train_lb)
+    except ValueError:
+        for i in range(len(train_dt)):
+            train_dt[i] = float(train_dt[i])
+        tuple_classifier[0].fit(train_dt, train_lb)
+
+    try:
+        predict_label = tuple_classifier[0].predict(test_dt)
+    except ValueError:
+        for i in range(len(train_dt)):
+            test_dt[i] = float(test_dt[i])
+        predict_label = tuple_classifier[0].predict(test_dt)
+
     end = default_timer()
     tuple_classifier[1].append(accuracy_score(test_lb, predict_label))
     tuple_classifier[2].append(end - start)
