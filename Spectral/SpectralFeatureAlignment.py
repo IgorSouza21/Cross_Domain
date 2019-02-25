@@ -206,8 +206,8 @@ class SpectralFeatureAlignment:
         _, eigenvectors = np.linalg.eig(L)
         try:
             U, _, _ = sparsesvd(csc_matrix(eigenvectors), k)
-        except ValueError:
-            return eigenvectors.transpose()
+        except(ValueError, IndexError):
+            return eigenvectors[:k].transpose()
 
         return U.transpose()
 
@@ -215,7 +215,7 @@ class SpectralFeatureAlignment:
         if self.U is not None:
             tam = len(self.DS)
             y = x.dot(self.U[:tam, :])
-            for i in range(self.nclusters):
+            for i in range(len(y[0])):
                 y[0, i] = self.gamma * y[0, i]
 
             return y[0]
