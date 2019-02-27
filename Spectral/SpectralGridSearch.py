@@ -67,13 +67,8 @@ class GridSearchSpectral:
             self.best_acc = acc
             self.best = param
 
-    def search(self):
+    def search(self, processes):
         params = self.gerar_parametros()
 
-        with mp.Pool(2) as p:
+        with mp.Pool(processes) as p:
             p.map(self.worker, params)
-
-
-
-
-
