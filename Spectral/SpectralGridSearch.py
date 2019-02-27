@@ -70,5 +70,8 @@ class GridSearchSpectral:
     def search(self, processes):
         params = self.gerar_parametros()
 
+        # for param in params:
+        #     self.worker(param)
+
         with mp.Pool(processes) as p:
             p.map(self.worker, params)
