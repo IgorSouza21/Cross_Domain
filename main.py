@@ -25,5 +25,5 @@ def run_grid(model, processes):
 
 
 if __name__ == "__main__":
-    run_grid(sys.argv[1], sys.argv[2])
+    run_grid([sys.argv[1]], int(sys.argv[2]))
     # run_grid(['lr'], 2)
