@@ -75,3 +75,5 @@ class GridSearchSpectral:
 
         with mp.Pool(processes) as p:
             p.map(self.worker, params)
+
+        print("finish search")

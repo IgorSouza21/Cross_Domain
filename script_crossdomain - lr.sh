@@ -23,7 +23,7 @@
 
 ############################################### STEP 03
 echo "Install Dependencies Python Project Requirements..."
-conda create --name cross_domain_env python=3 && \
+conda create --name cross_domain_env python=3.6 && \
 source activate cross_domain_env && \
 conda install -c conda-forge spacy=2.0.11 && \
 python -m spacy download en && \
