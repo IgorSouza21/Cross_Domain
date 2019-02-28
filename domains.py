@@ -7,8 +7,8 @@ domains_names = ['books', 'electronics', 'dvd', 'kitchen']
 
 def return_domain(string, train_size=0.8, test_size=0.2):
     pos, neg = pos_neg('DataSet/' + string)
-    pos = pos[:5]
-    neg = neg[:5]
+    # pos = pos[:5]
+    # neg = neg[:5]
 
     labels = [1] * len(pos) + [0] * len(neg)
 
