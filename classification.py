@@ -5,7 +5,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-from NeuralNetwork import NeuralNetwork
+# from NeuralNetwork import NeuralNetwork
 from timeit import default_timer
 
 model_names = ['knn3', 'knn5', 'knn7', 'wknn3', 'wknn5', 'wknn7', 'nb',
@@ -35,9 +35,9 @@ def choose_model(str_model, k_features=None):
         model = svm.LinearSVC()
     elif str_model == 'lr':
         model = LogisticRegression(solver='lbfgs', n_jobs=4)
-    elif str_model == 'nn':
-        model = NeuralNetwork(k_features, n_hidden_layers=3,
-                              n_neurons=[int(k_features/2), int(k_features/5), 20])
+    # elif str_model == 'nn':
+    #     model = NeuralNetwork(k_features, n_hidden_layers=3,
+    #                           n_neurons=[int(k_features/2), int(k_features/5), 20])
     else:
         model = None
 
