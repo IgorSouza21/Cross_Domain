@@ -27,6 +27,7 @@ conda create --name cross_domain_env python=3 && \
 source activate cross_domain_env && \
 conda install -c conda-forge spacy=2.0.11 && \
 python -m spacy download en && \
+conda instal matplotlib=3.0.2 &&\
 conda install -c anaconda scikit-learn=0.20.2 && \
 conda install -c menpo pathlib && \
 conda install -c conda-forge flask-socketio && \  
@@ -34,6 +35,7 @@ conda install -c anaconda six=1.11.0 && \
 conda install -c anaconda numpy=1.14.2 && \
 conda install -c anaconda pickle &&\
 ###### Novas bibliotecas adicionadas ######
+conda install _tflow_select=2.1.0-gpu
 conda install tensorflow=1.12.0 &&\
 conda install keras=2.2.4 &&\
 conda install pandas=0.23.4 &&\
@@ -41,7 +43,7 @@ conda install -c anaconda nltk=3.3 &&\
 python -m nltk.downloader all &&\
 conda install -c anaconda scipy=1.2.0 &&\
 conda install -c opencog-ull sparsesvd=0.2.2 
-
+pip install swarmpackagepy=1.0.0a5
 #####  FALTA INFORMAÇÃO AQUI DO NÚMERO DE VERSÃO DAS BIBLIOTECAS DO PYTHON
 ### Listar as bibliotecas que você tem para este enviroment e precisar no comando "conda install ..."
 ### o número de versão de cada biblioteca a instalar
