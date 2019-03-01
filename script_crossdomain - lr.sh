@@ -34,9 +34,8 @@ conda install -c conda-forge flask-socketio && \
 conda install -c anaconda six=1.11.0 && \ 
 conda install -c anaconda numpy=1.14.2 && \
 conda install -c anaconda pickle &&\
+
 ###### Novas bibliotecas adicionadas ######
-conda install _tflow_select=2.1.0-gpu
-conda install tensorflow=1.12.0 &&\
 conda install keras=2.2.4 &&\
 conda install pandas=0.23.4 &&\
 conda install -c anaconda nltk=3.3 &&\

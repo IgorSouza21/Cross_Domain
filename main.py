@@ -5,7 +5,7 @@ import sys
 # models for run ['lr', 'knn3', 'svm_linear', 'dt', 'rf', 'nb', 'nn', 'wknn3']
 
 
-def run_grid(model, processes):
+def run_grid(model):
     parameters = {'nclusters': [2, 5, 7],
                   'nDI': [60, 80, 100],
                   'coocTh': [5, 10, 15],
@@ -17,7 +17,7 @@ def run_grid(model, processes):
                   'model': model}
 
     grid = GridSearchSpectral(parameters)
-    grid.search(processes)
+    grid.search()
     pp.save_pickle('Spectral/results/GridSearch-' + model[0] + '.rs', grid)
     print(grid.best)
     print(grid.best_acc)
@@ -25,5 +25,8 @@ def run_grid(model, processes):
 
 
 if __name__ == "__main__":
-    run_grid([sys.argv[1]], int(sys.argv[2]))
+    run_grid([sys.argv[1]])
+
+    # grid = pp.read("C:/Users/igor_/PycharmProjects/Cross_Domain/Spectral/results/GridSearch-lr.rs")
+    # print(grid.all_results)
     # run_grid(['lr'], 2)

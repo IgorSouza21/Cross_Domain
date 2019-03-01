@@ -2,7 +2,6 @@ import classification as clf
 from Spectral.SpectralFeatureAlignment import SpectralFeatureAlignment
 import domains as dm
 import preprocess as pp
-import multiprocessing as mp
 
 
 class GridSearchSpectral:
@@ -67,11 +66,10 @@ class GridSearchSpectral:
             self.best_acc = acc
             self.best = param
 
-    def search(self, processes):
+    def search(self):
         params = self.gerar_parametros()
 
-        # for param in params:
-        #     self.worker(param)
+        for param in params:
+            self.worker(param)
 
-        with mp.Pool(processes) as p:
-            p.map(self.worker, params)
+        print("finish search")

@@ -1,6 +1,5 @@
 import preprocess as pp
 import numpy as np
-# import multiprocessing as mp
 
 
 def calculate_corr(M, d):
