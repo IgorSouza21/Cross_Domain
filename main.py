@@ -19,6 +19,7 @@ def run_grid(model):
     grid = GridSearchSpectral(parameters)
     grid.search()
     pp.save_pickle('Spectral/results/GridSearch-' + model[0] + '.rs', grid)
+    print("The best result found")
     print(grid.best)
     print(grid.best_acc)
     print('====================FINISHED=====================')
@@ -29,4 +30,4 @@ if __name__ == "__main__":
 
     # grid = pp.read("C:/Users/igor_/PycharmProjects/Cross_Domain/Spectral/results/GridSearch-lr.rs")
     # print(grid.all_results)
-    # run_grid(['lr'], 2)
+    # run_grid(['lr'])

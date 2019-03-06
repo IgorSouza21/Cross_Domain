@@ -57,7 +57,10 @@ def pre_process(data_set, select_type, k, model):
         selector = PsoFeatureSelection(10, model)
         sel = 'pso'
 
-    matrix = get_all_features(data, True)     # return the Bag of Words in a DataFrame pandas
+    matrix = []
+    for d in data:
+        matrix.append(get_features(d))
+    matrix = pd.DataFrame(matrix)
     if sel is 'pso':
         selector.dimension = len(matrix.columns)
     new_data = selector.fit_transform(matrix, labels)
@@ -129,19 +132,18 @@ def using_queue_get_feat(d, output):
     output.put(get_features(d))
 
 
-def get_all_features(data, tfidf_bool):
+def get_all_features(data, str_domain):
     dicts = []
 
+    file = open("DataSet/%s/features.txt" % str_domain, 'w')
     for d in data:
-        dicts.append(get_features(d))
-
-    matrix = pd.DataFrame(dicts)
-    matrix.fillna(0, inplace=True)
-
-    if tfidf_bool is True:
-        matrix = tfidf(matrix, len(dicts))
-
-    return matrix.to_dict('records')
+        feat = get_features(d)
+        for f in feat.items():
+            for i in range(f[1]):
+                file.write(f[0])
+        file.write('\n')
+        dicts.append(feat)
+    file.close()
 
 
 def tfidf(matrix, n):

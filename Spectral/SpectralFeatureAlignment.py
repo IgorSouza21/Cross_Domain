@@ -31,47 +31,48 @@ class SpectralFeatureAlignment:
         self.source = None
         self.target = None
 
-    def spectral_alignment(self, source, target):
-        self.source, vocab_source = get_features_vocab(source, self.sourceFreqTh, True)
-        self.target, vocab_target = get_features_vocab(target, self.targetFreqTh, True)
+    def spectral_alignment(self, str_src, str_tar, source, target):
+        self.get_features(source, str_src)
+        self.get_features(target, str_tar)
 
-        vocab = vocab_source.copy()
+        s = {}
+        self.get_vocab(s, str_src)
+        s = self.threshold(s, self.sourceFreqTh)
 
-        for w in vocab_target:
-            src = 0
-            tar = 0
-            if w in vocab_source:
-                src = vocab_source[w]
-            if w in vocab_target:
-                tar = vocab_target[w]
-            vocab[w] = src + tar
+        t = {}
+        self.get_vocab(t, str_tar)
+        t = self.threshold(t, self.targetFreqTh)
 
-        corr = {}
-        self.correlation(corr, self.source)
-        self.correlation(corr, self.target)
+        v = s.copy()
+        for w in t:
+            v[w] = s.get(w, 0) + t[w]
 
-        corr = self.threshold(corr, self.coocTh)
+        m = {}
+        self.correlation(v, m, str_src)
+        self.correlation(v, m, str_tar)
 
-        pivots = set(vocab_source.keys()).intersection(set(vocab_target.keys()))
+        m = self.threshold(m, self.coocTh)
+
+        pivots = set(s.keys()).intersection(set(t.keys()))
 
         C = {}
-        N = sum(vocab.values())
+        N = sum(v.values())
         for pivot in pivots:
             C[pivot] = 0.0
-            for w in vocab_source:
-                val = self.getVal(pivot, w, corr)
-                C[pivot] += 0.0 if (val < self.coocTh) else self.getPMI(val, vocab[w], vocab[pivot], N)
-            for w in vocab_target:
-                val = self.getVal(pivot, w, corr)
-                C[pivot] += 0.0 if (val < self.coocTh) else self.getPMI(val, vocab[w], vocab[pivot], N)
+            for w in s:
+                val = self.getVal(pivot, w, m)
+                C[pivot] += 0.0 if (val < self.coocTh) else self.getPMI(val, v[w], v[pivot], N)
+            for w in t:
+                val = self.getVal(pivot, w, m)
+                C[pivot] += 0.0 if (val < self.coocTh) else self.getPMI(val, v[w], v[pivot], N)
 
         pivotList = sorted(C.items(), key=lambda x: x[1], reverse=True)
         DI = {}
-        for (w, v) in pivotList[:self.nDI]:
-            DI[w] = v
+        for (w, x) in pivotList[:self.nDI]:
+            DI[w] = x
 
         self.DI = DI
-        DS = set(vocab_source.keys()).union(set(vocab_target.keys())) - set(DI)
+        DS = set(s.keys()).union(set(t.keys())) - set(DI)
         DS = list(DS)
 
         nDS = len(DS)
@@ -84,11 +85,11 @@ class SpectralFeatureAlignment:
         M = np.zeros((nDS, nDI), dtype=np.float64)
         for i in range(nDS):
             for j in range(nDI):
-                val = self.getVal(DS[i], list(DI.keys())[j], corr)
+                val = self.getVal(DS[i], list(DI.keys())[j], m)
                 if val > self.coocTh:
                     M[i, j] = val
 
-        nV = len(vocab.keys())
+        nV = len(v.keys())
 
         A = self.affinity_matrix(M, nDS, nV)
 
@@ -152,22 +153,26 @@ class SpectralFeatureAlignment:
         return x, fea
 
     @staticmethod
-    def correlation(M, data):
-        for d in data:
-            d = list(d.keys())
-            n = len(d)
+    def correlation(v, m, domain_name):
+        file = open('DataSet/%s/features.txt' % domain_name)
+        for f in file:
+            line = f.strip().split()
+            p = []
+            for w in line:
+                if w in v:
+                    p.append(w)
+            n = len(p)
             for i in range(n):
                 for j in range(i + 1, n):
-                    pair = (d[i], d[j])
-                    rpair = (d[j], d[i])
-                    if pair in M:
-                        M[pair] += 1
-                    elif rpair in M:
-                        M[rpair] += 1
+                    pair = (p[i], p[j])
+                    rpair = (p[j], p[i])
+                    if pair in m:
+                        m[pair] += 1
+                    elif rpair in m:
+                        m[rpair] += 1
                     else:
-                        M[pair] = 1
-
-        return M
+                        m[pair] = 1
+        file.close()
 
     @staticmethod
     def affinity_matrix(M, MminusL, nV):
@@ -232,15 +237,23 @@ class SpectralFeatureAlignment:
         dt.fillna(0, inplace=True)
         return dt
 
+    def get_features(self, dt, str_domain):
+        dicts = []
+        file = open("DataSet/%s/features.txt" % str_domain, 'w')
+        for d in dt:
+            feat = pp.get_features(d)
+            for f in feat.items():
+                for i in range(f[1]):
+                    file.write('%s ' % f[0])
+            dicts.append(feat)
+            file.write('\n')
+        self.source = dicts
+        file.close()
 
-def get_features_vocab(dt, t, tfidf_bool):
-    dicts = pp.get_all_features(dt, tfidf_bool)
-    vocab = pp.defaultdict(int)
-
-    for d in dicts:
-        for key, val in d.items():
-            vocab[key] += val
-
-    vocab = SpectralFeatureAlignment.threshold(vocab, t)
-
-    return dicts, vocab
+    def get_vocab(self, S, fname):
+        f = open('DataSet/%s/features.txt' % fname)
+        for line in f:
+            p = line.strip().split()
+            for w in p:
+                S[w] = S.get(w, 0) + 1
+        f.close()

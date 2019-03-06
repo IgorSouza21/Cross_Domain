@@ -2,6 +2,7 @@ import classification as clf
 from Spectral.SpectralFeatureAlignment import SpectralFeatureAlignment
 import domains as dm
 import preprocess as pp
+import os
 
 
 class GridSearchSpectral:
@@ -39,16 +40,25 @@ class GridSearchSpectral:
 
     def worker(self, param):
         nclusters, nDI, coocTh, sourceFreqTh, targetFreqTh, gamma, source, target, model = param
+
+        if not os.path.isdir('DataSet/%s' % source):
+            os.mkdir('DataSet/%s' % source)
+        if not os.path.isdir('DataSet/%s' % target):
+            os.mkdir('DataSet/%s' % target)
+
         src_train_dt, src_test_dt, src_train_lb, src_test_lb = dm.return_domain(source)
         tar_train_dt, tar_test_dt, tar_train_lb, tar_test_lb = dm.return_domain(target)
 
         spec = SpectralFeatureAlignment(nclusters, nDI, coocTh, sourceFreqTh,
                                         targetFreqTh, gamma)
-        spec.spectral_alignment(src_train_dt, tar_train_dt)
+        spec.spectral_alignment(source, target, src_train_dt, tar_train_dt)
 
         train = spec.transform_data(spec.source)
 
-        tar_feat = pp.get_all_features(tar_test_dt, True)
+        tar_feat = []
+        for a in tar_test_dt:
+            tar_feat.append(pp.get_features(a))
+
         test = spec.transform_data(tar_feat)
 
         tam = len(train)
@@ -72,4 +82,3 @@ class GridSearchSpectral:
         for param in params:
             self.worker(param)
 
-        print("finish search")
