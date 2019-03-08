@@ -2,21 +2,6 @@ import preprocess as pp
 import numpy as np
 
 
-def calculate_corr(M, d):
-    d = list(d.keys())
-    n = len(d)
-    for i in range(n):
-        for j in range(i + 1, n):
-            pair = (d[i], d[j])
-            rpair = (d[j], d[i])
-            if pair in M:
-                M[pair] += 1
-            elif rpair in M:
-                M[rpair] += 1
-            else:
-                M[pair] = 1
-
-
 class SpectralFeatureAlignment:
     def __init__(self, nclusters, nDI, coocTh, sourceFreqTh, targetFreqTh, gamma):
         self.nclusters = nclusters
@@ -208,6 +193,12 @@ class SpectralFeatureAlignment:
         from sparsesvd import sparsesvd
         from scipy.sparse import csc_matrix
         _, eigenvectors = np.linalg.eig(L)
+        print(eigenvectors)
+        for i in range(len(eigenvectors)):
+            for j in range(len(eigenvectors)):
+                eigenvectors[i][j] = float(eigenvectors[i][j])
+        print('==================================================')
+        print(eigenvectors)
         try:
             U, _, _ = sparsesvd(csc_matrix(eigenvectors), k)
         except(ValueError, IndexError):

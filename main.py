@@ -16,6 +16,16 @@ def run_grid(model):
                   'target': ['books', 'dvd', 'electronics', 'kitchen'],
                   'model': model}
 
+    # parameters = {'nclusters': [5, 7],
+    #               'nDI': [80, 100],
+    #               'coocTh': [10, 15],
+    #               'sourceFreqTh': [10, 15],
+    #               'targetFreqTh': [10, 15],
+    #               'gamma': [0.5, 1.0],
+    #               'source': ['books', 'dvd', 'electronics', 'kitchen'],
+    #               'target': ['books', 'dvd', 'electronics', 'kitchen'],
+    #               'model': model}
+
     grid = GridSearchSpectral(parameters)
     grid.search()
     pp.save_pickle('Spectral/results/GridSearch-' + model[0] + '.rs', grid)
@@ -26,7 +36,7 @@ def run_grid(model):
 
 
 if __name__ == "__main__":
-    run_grid([sys.argv[1]])
+    run_grid([sys.argv[j] for j in range(1, len(sys.argv))])
 
     # grid = pp.read("C:/Users/igor_/PycharmProjects/Cross_Domain/Spectral/results/GridSearch-lr.rs")
     # print(grid.all_results)

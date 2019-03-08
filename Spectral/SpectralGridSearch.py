@@ -78,7 +78,10 @@ class GridSearchSpectral:
 
     def search(self):
         params = self.gerar_parametros()
+        tam = len(params)
 
         for param in params:
+            print('iteration %d' % tam)
             self.worker(param)
+            tam -= 1
 

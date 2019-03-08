@@ -34,7 +34,7 @@ def choose_model(str_model, k_features=None):
     elif str_model == 'svm':
         model = svm.LinearSVC()
     elif str_model == 'lr':
-        model = LogisticRegression(solver='lbfgs', n_jobs=4)
+        model = LogisticRegression(solver='lbfgs', n_jobs=4, max_iter=1000)
     elif str_model == 'nn':
         model = NeuralNetwork(k_features, n_hidden_layers=3,
                               n_neurons=[int(k_features/2), int(k_features/5), 20])
