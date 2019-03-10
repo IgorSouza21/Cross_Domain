@@ -40,6 +40,8 @@ if __name__ == "__main__":
         run_grid([sys.argv[1]], sys.argv[2], int(sys.argv[3]))
     elif len(sys.argv) == 3:
         run_grid([sys.argv[1]], sys.argv[2])
+    elif len(sys.argv) == 2:
+        run_grid([sys.argv[1]])
 
     # grid = pp.read("C:/Users/igor_/PycharmProjects/Cross_Domain/Spectral/results/GridSearch-lr.rs")
     # print(grid.all_results)
