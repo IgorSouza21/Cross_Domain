@@ -85,6 +85,7 @@ class SpectralFeatureAlignment:
 
         self.U = U
         # pp.save(src_string + '_' + tar_string, self)
+        print('Spectral alignment is ready.')
 
     @staticmethod
     def threshold(h, t):

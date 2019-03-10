@@ -94,11 +94,11 @@ class GridSearchSpectral:
         src_pos, src_neg = dm.pos_neg('DataSet/' + source)
         tar_pos, tar_neg = dm.pos_neg('DataSet/' + target)
 
-        # n = 20
-        # src_pos = src_pos[:n]
-        # src_neg = src_neg[:n]
-        # tar_pos = tar_pos[:n]
-        # tar_neg = tar_neg[:n]
+        n = 50
+        src_pos = src_pos[:n]
+        src_neg = src_neg[:n]
+        tar_pos = tar_pos[:n]
+        tar_neg = tar_neg[:n]
 
         labels = [1] * len(src_pos) + [0] * len(src_neg)
 
@@ -149,8 +149,8 @@ class GridSearchSpectral:
         print('Accuracy : ', mean_acc)
         print('Median : ', median_acc)
         print('Standard Deviation : ', std_acc)
-        print('Max : ', np.max(accs))
-        print('Min : ', np.min(accs))
+        # print('Max : ', np.max(accs))
+        # print('Min : ', np.min(accs))
         self.all_results[param] = (mean_acc, median_acc, std_acc, np.median(times))
         if mean_acc > self.best_acc:
             self.best_acc = mean_acc

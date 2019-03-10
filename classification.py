@@ -78,4 +78,5 @@ def train_test_one_model(train_dt, train_lb, test_dt, test_lb, model, k_features
     classifier = [choose_model(model, k_features), [], []]
     run_classifier(classifier, train_dt, train_lb, test_dt, test_lb)
 
+    print('finish classification')
     return classifier[1][0], classifier[2][0]
