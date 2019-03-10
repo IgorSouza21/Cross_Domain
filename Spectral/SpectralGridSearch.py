@@ -94,11 +94,11 @@ class GridSearchSpectral:
         src_pos, src_neg = dm.pos_neg('DataSet/' + source)
         tar_pos, tar_neg = dm.pos_neg('DataSet/' + target)
 
-        n = 50
-        src_pos = src_pos[:n]
-        src_neg = src_neg[:n]
-        tar_pos = tar_pos[:n]
-        tar_neg = tar_neg[:n]
+        # n = 50
+        # src_pos = src_pos[:n]
+        # src_neg = src_neg[:n]
+        # tar_pos = tar_pos[:n]
+        # tar_neg = tar_neg[:n]
 
         labels = [1] * len(src_pos) + [0] * len(src_neg)
 
