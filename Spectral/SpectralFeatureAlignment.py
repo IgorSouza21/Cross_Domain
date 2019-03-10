@@ -18,7 +18,7 @@ class SpectralFeatureAlignment:
         self.target = None
 
     def spectral_alignment(self, str_src, str_tar, source, target):
-        self.get_features(source, str_src)
+        self.source = self.get_features(source, str_src)
         self.get_features(target, str_tar)
 
         s = {}
@@ -234,8 +234,9 @@ class SpectralFeatureAlignment:
                     file.write('%s ' % f[0])
             dicts.append(feat)
             file.write('\n')
-        self.source = dicts
         file.close()
+
+        return dicts
 
     def get_vocab(self, S, fname):
         f = open('DataSet/%s/features.txt' % fname)

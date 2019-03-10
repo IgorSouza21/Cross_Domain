@@ -36,11 +36,11 @@ def run_grid(model, eval=None, nfold=None):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 4:
-        run_grid([sys.argv[1]], sys.argv[2], int(sys.argv[3]))
-    elif len(sys.argv) == 3:
-        run_grid([sys.argv[1]], sys.argv[2])
+    # if len(sys.argv) == 4:
+    #     run_grid([sys.argv[1]], sys.argv[2], int(sys.argv[3]))
+    # elif len(sys.argv) == 3:
+    #     run_grid([sys.argv[1]], sys.argv[2])
 
     # grid = pp.read("C:/Users/igor_/PycharmProjects/Cross_Domain/Spectral/results/GridSearch-lr.rs")
     # print(grid.all_results)
-    # run_grid(['knn3'])
+    run_grid(['lr'], 'kf')
