@@ -1,5 +1,6 @@
 import preprocess as pp
 import numpy as np
+import scipy as sp
 
 
 class SpectralFeatureAlignment:
@@ -84,7 +85,6 @@ class SpectralFeatureAlignment:
 
         self.U = U
         # pp.save(src_string + '_' + tar_string, self)
-        print("Spectral alignment is ready")
 
     @staticmethod
     def threshold(h, t):
@@ -192,13 +192,9 @@ class SpectralFeatureAlignment:
     def apply_svd(L, k):
         from sparsesvd import sparsesvd
         from scipy.sparse import csc_matrix
-        _, eigenvectors = np.linalg.eig(L)
-        print(eigenvectors)
-        for i in range(len(eigenvectors)):
-            for j in range(len(eigenvectors)):
-                eigenvectors[i][j] = float(eigenvectors[i][j])
-        print('==================================================')
-        print(eigenvectors)
+
+        _, eigenvectors = sp.linalg.eig(L)
+        eigenvectors = np.real(eigenvectors)
         try:
             U, _, _ = sparsesvd(csc_matrix(eigenvectors), k)
         except(ValueError, IndexError):
