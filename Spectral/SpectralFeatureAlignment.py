@@ -16,6 +16,16 @@ class SpectralFeatureAlignment:
         self.DI = None
         self.source = None
         self.target = None
+    #
+    # def __init__(self, nclusters, nDI, gamma):
+    #     self.nclusters = nclusters
+    #     self.nDI = nDI
+    #     self.gamma = gamma
+    #     self.U = None
+    #     self.DS = None
+    #     self.DI = None
+    #     self.source = None
+    #     self.target = None
 
     def spectral_alignment(self, str_src, str_tar, source, target):
         self.source = self.get_features(source, str_src)
@@ -48,9 +58,11 @@ class SpectralFeatureAlignment:
             for w in s:
                 val = self.getVal(pivot, w, m)
                 C[pivot] += 0.0 if (val < self.coocTh) else self.getPMI(val, v[w], v[pivot], N)
+                # C[pivot] += self.getPMI(val, v[w], v[pivot], N)
             for w in t:
                 val = self.getVal(pivot, w, m)
                 C[pivot] += 0.0 if (val < self.coocTh) else self.getPMI(val, v[w], v[pivot], N)
+                # C[pivot] += self.getPMI(val, v[w], v[pivot], N)
 
         pivotList = sorted(C.items(), key=lambda x: x[1], reverse=True)
         DI = {}
@@ -74,6 +86,7 @@ class SpectralFeatureAlignment:
                 val = self.getVal(DS[i], list(DI.keys())[j], m)
                 if val > self.coocTh:
                     M[i, j] = val
+                # M[i, j] = val
 
         nV = len(v.keys())
 
@@ -109,7 +122,6 @@ class SpectralFeatureAlignment:
             return M[(y, x)]
         else:
             return 0
-        pass
 
     @staticmethod
     def getPMI(n, x, y, N):

@@ -1,48 +1,45 @@
-from Spectral.SpectralGridSearch import GridSearchSpectral
+from Spectral.SpectralGridSearch import run_grid
 import preprocess as pp
+import random
 import sys
 
 # models for run ['lr', 'knn3', 'svm_linear', 'dt', 'rf', 'nb', 'nn', 'wknn3']
 
 
-def run_grid(model, eval=None, nfold=None):
-    parameters = {'nclusters': [2, 5, 7],
-                  'nDI': [60, 80, 100],
-                  'coocTh': [5, 10, 15],
-                  'sourceFreqTh': [5, 10, 15],
-                  'targetFreqTh': [5, 10, 15],
-                  'gamma': [0.1, 0.5, 1.0],
-                  'source': ['books', 'dvd', 'electronics', 'kitchen'],
-                  'target': ['books', 'dvd', 'electronics', 'kitchen'],
-                  'model': model}
-
-    # parameters = {'nclusters': [5, 7],
-    #               'nDI': [80, 100],
-    #               'coocTh': [10, 15],
-    #               'sourceFreqTh': [10, 15],
-    #               'targetFreqTh': [10, 15],
-    #               'gamma': [0.5, 1.0],
-    #               'source': ['books', 'dvd', 'electronics', 'kitchen'],
-    #               'target': ['books', 'dvd', 'electronics', 'kitchen'],
-    #               'model': model}
-
-    grid = GridSearchSpectral(parameters, nfold)
-    grid.search(eval)
-    pp.save_pickle('Spectral/results/GridSearch-' + model[0] + '.rs', grid)
-    print("Best Result Found")
-    print(grid.best)
-    print(grid.best_acc)
-    print('====================FINISHED=====================')
-
-
 if __name__ == "__main__":
+    domains = ['books', 'dvd', 'electronics', 'kitchen']
     if len(sys.argv) == 4:
-        run_grid([sys.argv[1]], sys.argv[2], int(sys.argv[3]))
+        model = sys.argv[1]
+        eval_type = sys.argv[2]
+        nfolds = int(sys.argv[3])
     elif len(sys.argv) == 3:
-        run_grid([sys.argv[1]], sys.argv[2])
+        model = sys.argv[1]
+        eval_type = sys.argv[2]
+        nfolds = 5
     elif len(sys.argv) == 2:
-        run_grid([sys.argv[1]])
+        model = sys.argv[1]
+        eval_type = 'tt'
+        nfolds = 5
+    else:
+        raise AttributeError('insert the parameters.')
 
-    # grid = pp.read("C:/Users/igor_/PycharmProjects/Cross_Domain/Spectral/results/GridSearch-lr.rs")
-    # print(grid.all_results)
-    # run_grid(['lr'], 'kf')
+    # grid = pp.read("C:/Users/igor_/Desktop/results/results_lr_nn_knn3_wknn3/GridSearch-lr.rs")
+    # for a in grid.all_results.items():
+    #     print(a)
+    # print(len(grid.all_results))
+    # print(grid.best_acc)
+    # print(grid.best)
+
+    file = open('seeds.txt', 'w')
+    file.write(str(int(random.random() * 100)))
+    file.close()
+
+    nclusters = 100
+    nDI = 500
+    gamma = 0.6
+
+    for source in domains:
+        for target in domains:
+            print('Source: %s - Target: %s' % (source, target))
+            run_grid('lr', source, target, eval_type, nfolds)
+
