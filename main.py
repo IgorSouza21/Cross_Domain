@@ -29,6 +29,10 @@ if __name__ == "__main__":
     # print(len(grid.all_results))
     # print(grid.best_acc)
     # print(grid.best)
+    #
+    # model = 'lr'
+    # eval_type = 'tt'
+    # nfolds = 5
 
     file = open('seeds.txt', 'w')
     file.write(str(int(random.random() * 100)))
@@ -39,7 +43,7 @@ if __name__ == "__main__":
     gamma = 0.6
 
     for source in domains:
-        for target in domains:
-            print('Source: %s - Target: %s' % (source, target))
-            run_grid('lr', source, target, eval_type, nfolds)
+        for i in range(len(domains)-1, 0, -1):
+            print('Source: %s - Target: %s' % (source, domains[i]))
+            run_grid('lr', source, domains[i], eval_type, nfolds)
 
