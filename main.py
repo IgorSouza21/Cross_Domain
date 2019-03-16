@@ -38,9 +38,9 @@ if __name__ == "__main__":
     file.write(str(int(random.random() * 100)))
     file.close()
 
-    nclusters = 100
-    nDI = 500
-    gamma = 0.6
+    # nclusters = 100
+    # nDI = 500
+    # gamma = 0.6
 
     for source in domains:
         for i in range(len(domains)-1, 0, -1):
