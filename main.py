@@ -43,7 +43,8 @@ if __name__ == "__main__":
     # gamma = 0.6
 
     for source in domains:
-        for i in range(len(domains)-1, 0, -1):
-            print('Source: %s - Target: %s' % (source, domains[i]))
-            run_grid(model, source, domains[i], eval_type, nfolds)
+        for target in domains:
+            if source != target;
+                print('Source: %s - Target: %s' % (source, target))
+                run_grid(model, source, domains[i], eval_type, nfolds)
 
