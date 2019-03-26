@@ -2,6 +2,7 @@ from Spectral.SpectralGridSearch import run_grid
 import preprocess as pp
 import random
 import sys
+import os
 
 # models for run ['lr', 'knn3', 'svm_linear', 'dt', 'rf', 'nb', 'nn', 'wknn3']
 
@@ -33,10 +34,11 @@ if __name__ == "__main__":
     # model = 'lr'
     # eval_type = 'tt'
     # nfolds = 3
-
-    file = open('seeds.txt', 'w')
-    file.write(str(int(random.random() * 100)))
-    file.close()
+    
+    if not os.path.exists('seeds.txt'):
+        file = open('seeds.txt', 'w')
+        file.write(str(int(random.random() * 100)))
+        file.close()
 
     # nclusters = 100
     # nDI = 500
