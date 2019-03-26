@@ -237,17 +237,19 @@ class SpectralFeatureAlignment:
         dt.fillna(0, inplace=True)
         return dt
 
-    def get_features(self, dt, str_domain):
+    @staticmethod
+    def get_features(dt, str_domain):
         dicts = []
-        file = open("DataSet/%s/features.txt" % str_domain, 'w')
+        # file = open("DataSet/%s/features.txt" % str_domain, 'w')
         for d in dt:
             feat = pp.get_features(d)
-            for f in feat.items():
-                for i in range(f[1]):
-                    file.write('%s ' % f[0])
+            # for f in feat.items():
+                # for i in range(f[1]):
+                #     file.write('%s:%d ' % f[0])
+                # file.write('%s:%d ' % (f[0], f[1]))
             dicts.append(feat)
-            file.write('\n')
-        file.close()
+            # file.write('\n')
+        # file.close()
 
         return dicts
 

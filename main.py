@@ -46,5 +46,4 @@ if __name__ == "__main__":
         for target in domains:
             if source != target:
                 print('Source: %s - Target: %s' % (source, target))
-                run_grid(model, source, domains[i], eval_type, nfolds)
-
+                run_grid(model, source, target, eval_type, nfolds)
