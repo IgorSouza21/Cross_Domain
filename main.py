@@ -15,11 +15,11 @@ if __name__ == "__main__":
     elif len(sys.argv) == 3:
         model = sys.argv[1]
         eval_type = sys.argv[2]
-        nfolds = 5
+        nfolds = 3
     elif len(sys.argv) == 2:
         model = sys.argv[1]
         eval_type = 'tt'
-        nfolds = 5
+        nfolds = 3
     else:
         raise AttributeError('insert the parameters.')
 
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     #
     # model = 'lr'
     # eval_type = 'tt'
-    # nfolds = 5
+    # nfolds = 3
 
     file = open('seeds.txt', 'w')
     file.write(str(int(random.random() * 100)))
