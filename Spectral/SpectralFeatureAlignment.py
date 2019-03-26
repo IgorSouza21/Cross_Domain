@@ -97,7 +97,7 @@ class SpectralFeatureAlignment:
         U = self.apply_svd(L, self.nclusters)
 
         self.U = U
-        # pp.save(src_string + '_' + tar_string, self)
+        pp.save_pickle(str_src + '_' + str_tar, self)
         print('Spectral alignment is ready.')
 
     @staticmethod
