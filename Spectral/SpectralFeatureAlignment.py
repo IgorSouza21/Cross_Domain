@@ -245,8 +245,8 @@ class SpectralFeatureAlignment:
             feat = pp.get_features(d)
             for f in feat.items():
                 for i in range(f[1]):
-                    file.write('%s:%d ' % f[0])
-                file.write('%s:%d ' % (f[0], f[1]))
+                    file.write('%s ' % f[0])
+                # file.write('%s:%d ' % (f[0], f[1]))
             dicts.append(feat)
             file.write('\n')
         file.close()

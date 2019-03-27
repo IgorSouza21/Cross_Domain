@@ -49,4 +49,3 @@ if __name__ == "__main__":
             if source != target:
                 print('Source: %s - Target: %s' % (source, target))
                 run_grid(model, source, target, eval_type, nfolds)
-
